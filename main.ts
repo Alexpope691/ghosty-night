@@ -11,6 +11,9 @@ controller.anyButton.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.setAction(mySprite, ActionKind.Jumping)
     mySprite.startEffect(effects.fire, 300)
 })
+function takeDamage () {
+	
+}
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Gap, function (sprite, otherSprite) {
     if (otherSprite.right - sprite.left < 1) {
         info.changeScoreBy(1)
@@ -48,8 +51,9 @@ mySprite = sprites.create(img`
     . . . f f f f f . . . . . . . . 
     `, SpriteKind.Player)
 mySprite.ay = 300
-let anim = animation.createAnimation(ActionKind.Jumping, 25)
-anim.addAnimationFrame(img`
+animation.runImageAnimation(
+mySprite,
+[img`
     . . . . . . f f f f f . . . . . 
     . . . . f f b 1 1 1 1 f f . . . 
     . . . f b 1 1 1 1 1 1 1 b f . . 
@@ -66,8 +70,7 @@ anim.addAnimationFrame(img`
     . . f . . f f f f f f f . . . . 
     . . f f f f f f f f f . . . . . 
     . . . f f f f f f f . . . . . . 
-    `)
-anim.addAnimationFrame(img`
+    `,img`
     . . . . . . f f f f . . . . . . 
     . . . . f f 1 1 1 1 f f . . . . 
     . . . f b 1 1 1 1 1 1 b f . . . 
@@ -84,8 +87,7 @@ anim.addAnimationFrame(img`
     . . f f f f f f f f c d 1 b 1 f 
     f f f f f f f f f . . f d f d f 
     . f f f f f f . . . . . f . f . 
-    `)
-anim.addAnimationFrame(img`
+    `,img`
     . . . . . . f f f f f . . . . . 
     . . . . f f 1 1 1 1 1 f . . . . 
     . . . f b 1 1 1 1 1 1 b f . . . 
@@ -102,8 +104,7 @@ anim.addAnimationFrame(img`
     . f f f f f f f f . . . . . . . 
     . f f f f f f b 1 b 1 f . . . . 
     . . f f f f f f b f b f . . . . 
-    `)
-anim.addAnimationFrame(img`
+    `,img`
     . . . . . . f f f f f . . . . . 
     . . . . f f b 1 1 1 1 f f . . . 
     . . . f b 1 1 1 1 1 1 1 b f . . 
@@ -120,26 +121,7 @@ anim.addAnimationFrame(img`
     . . f . . f f f f f f f . . . . 
     . . f f f f f f f f f . . . . . 
     . . . f f f f f f f . . . . . . 
-    `)
-anim.addAnimationFrame(img`
-    . . . . . . f f f f . . . . . . 
-    . . . . f f 1 1 1 1 f f . . . . 
-    . . . f b 1 1 1 1 1 1 b f . . . 
-    . . f b d 1 1 1 1 1 1 1 f . . . 
-    . . f d d 1 1 1 1 1 1 1 d f . . 
-    . . f d d d 1 1 1 1 1 1 d f . . 
-    . . f d d d d d d 1 1 1 d f . . 
-    . . f d d d d d d 1 1 1 d f . . 
-    . . f b d d d d d d d 1 d f . . 
-    . . f f b b d d b f d 1 d f . . 
-    . . . f c b b d c f d d b f . . 
-    . . . f f f b d d c c f f f f . 
-    . . . f f f f c f b b b 1 b c f 
-    . . f f f f f f f f c d 1 b 1 f 
-    f f f f f f f f f . . f d f d f 
-    . f f f f f f . . . . . f . f . 
-    `)
-anim.addAnimationFrame(img`
+    `,img`
     . . . . . . f f f f f . . . . . 
     . . . . f f 1 1 1 1 1 f . . . . 
     . . . f b 1 1 1 1 1 1 b f . . . 
@@ -156,8 +138,28 @@ anim.addAnimationFrame(img`
     . f f f f f f f f . . . . . . . 
     . f f f f f f b 1 b 1 f . . . . 
     . . f f f f f f b f b f . . . . 
-    `)
-animation.attachAnimation(mySprite, anim)
+    `,img`
+    . . . . . . f f f f . . . . . . 
+    . . . . f f 1 1 1 1 f f . . . . 
+    . . . f b 1 1 1 1 1 1 b f . . . 
+    . . f b d 1 1 1 1 1 1 1 f . . . 
+    . . f d d 1 1 1 1 1 1 1 d f . . 
+    . . f d d d 1 1 1 1 1 1 d f . . 
+    . . f d d d d d d 1 1 1 d f . . 
+    . . f d d d d d d 1 1 1 d f . . 
+    . . f b d d d d d d d 1 d f . . 
+    . . f f b b d d b f d 1 d f . . 
+    . . . f c b b d c f d d b f . . 
+    . . . f f f b d d c c f f f f . 
+    . . . f f f f c f b b b 1 b c f 
+    . . f f f f f f f f c d 1 b 1 f 
+    f f f f f f f f f . . f d f d f 
+    . f f f f f f . . . . . f . f . 
+    `],
+200,
+true
+)
+info.setLife(3)
 game.onUpdate(function () {
     if (mySprite.vy > 0) {
         animation.setAction(mySprite, ActionKind.Idle)
