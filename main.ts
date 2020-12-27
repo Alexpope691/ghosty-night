@@ -24,19 +24,18 @@ function takeDamage () {
     if (mySprite.kind() == SpriteKind.Player) {
         music.wawawawaa.play()
         info.changeLifeBy(-1)
-        mySprite.lifespan = 3000
+        mySprite.lifespan = 1500
         mySprite.setKind(SpriteKind.DamagedPlayer)
         animation.setAction(mySprite, ActionKind.Invincible)
     }
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Gap, function (sprite, otherSprite) {
-    if (otherSprite.right - sprite.left < 1.1) {
-        info.changeScoreBy(1)
-        music.baDing.play()
-        if (info.score() % 10 == 0) {
-            info.changeLifeBy(1)
-            music.powerUp.play()
-        }
+    otherSprite.destroy()
+    info.changeScoreBy(1)
+    music.baDing.play()
+    if (info.score() % 10 == 0) {
+        info.changeLifeBy(1)
+        music.powerUp.play()
     }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
@@ -71,7 +70,7 @@ function createPlayer () {
         . . f f f f 1 1 1 1 1 1 1 d f . 
         . f b 1 1 1 c 1 d d 1 1 1 d f . 
         . f f b 1 b 1 f d c f 1 1 b f . 
-        . . f . b f b f b 1 1 1 1 1 f . 
+        . . f b b f b f b 1 1 1 1 1 f . 
         . . . f f f f c f d b 1 b 1 f . 
         . . . . f c c c f c f b f b f . 
         . . . . . f f f f f f f f f f . 
@@ -596,13 +595,13 @@ game.onUpdateInterval(1500, function () {
             ......ee6eeeeee6eef.....
             `
     }
-    gapImage = image.create(2, scene.screenHeight())
+    gapImage = image.create(1, scene.screenHeight())
     gapImage.fill(1)
     gapSprite = sprites.create(gapImage, SpriteKind.Gap)
     gapSprite.setFlag(SpriteFlag.AutoDestroy, true)
     gapSprite.setFlag(SpriteFlag.Invisible, true)
-    gapSprite.left = scene.screenWidth()
-    gapSprite.vx = -45
+    gapSprite.x = scene.screenWidth()
+    gapSprite.vx = -36
     projectile = sprites.createProjectileFromSide(topImage, -45, 0)
     projectile.top = 0
     projectile = sprites.createProjectileFromSide(bottomImage, -45, 0)
